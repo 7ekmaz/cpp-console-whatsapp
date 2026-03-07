@@ -15,55 +15,82 @@ private:
     string phoneNumber;
     string status;
     string lastSeen;
-    
+   string getCurrentTime() const {
+        time_t now = time(0);
+
+        char buffer[26];
+        ctime_s(buffer, sizeof(buffer), &now);
+
+        string timeStr(buffer);
+        timeStr.pop_back(); 
+        return timeStr;
+    }
+
 public:
     User() {
-        // TODO: Implement default constructor
+        username = "";
+        password = "";
+        phoneNumber = "";
+        status = "Offline";
+        lastSeen = getCurrentTime();
     }
-    
+
     User(string uname, string pwd, string phone) {
-        // TODO: Implement parameterized constructor
+        username = uname;
+        password = pwd;
+        phoneNumber = phone;
+        status = "Offline";
+        lastSeen = getCurrentTime();
     }
-    
+
+    // Getters
     string getUsername() const {
-        // TODO: Implement getter
-        return "";
+        return username; 
     }
-    
-    string getPhoneNumber() const {
-        // TODO: Implement getter
-        return "";
+    string getPhoneNumber() const { 
+        return phoneNumber; 
     }
-    
-    string getStatus() const {
-        // TODO: Implement getter
-        return "";
+    string getStatus() const { 
+        return status; 
     }
-    
-    string getLastSeen() const {
-        // TODO: Implement getter
-        return "";
+    string getLastSeen() const { 
+        return lastSeen; 
     }
-    
+
+    // Setters (FR4 + FR5)
     void setStatus(string newStatus) {
-        // TODO: Implement setter
+        status = newStatus;
+        updateLastSeen();
     }
-    
+
     void setPhoneNumber(string phone) {
-        // TODO: Implement setter
+        phoneNumber = phone;
+        updateLastSeen();
     }
-    
+
+    // Update last seen
     void updateLastSeen() {
-        // TODO: Implement last seen update
+        lastSeen = getCurrentTime();
     }
-    
+
+    // Check password
     bool checkPassword(string pwd) const {
-        // TODO: Implement password check
-        return false;
+        return pwd == password;
     }
-    
+
     void changePassword(string newPwd) {
-        // TODO: Implement password change
+
+        // Check if password length is valid
+        if (newPwd.length() < 6) {
+            cout << "Password must be at least 6 characters.\n";
+            return;   
+        }
+
+        password = newPwd;
+
+        updateLastSeen();
+
+        cout << "Password changed successfully.\n";
     }
 };
 
