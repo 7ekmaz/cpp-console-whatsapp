@@ -408,22 +408,29 @@ public:
         cout << "Group chat '" << groupName << "' created successfully.\n";
     }
     
-    /*
+    
     void viewChats() const {
-        string currentUser = getCurrentUsername();
-        cout << "Your Chats:\n";
-        int count = 0;
-        for (int i =0 ; i < chats.size(); i++) {
-            if (chats[i]->hasParticipant(currentUser)) {
-                cout << (i + 1) << ". " << chats[i]->getName() << "\n";
-                count++;
-            }
-        }
-        if (count == 0) {
-            cout << "No chats available.\n";
+    string currentUser = getCurrentUsername();
+    cout << "Your Chats:\n";
+
+    int count = 0;
+
+    for (int i = 0; i < chats.size(); i++) {
+
+        if (chats[i]->hasParticipant(currentUser)) {
+            cout << (i + 1) << ". ";
+
+            chats[i]->displayChat();  
+
+            count++;
         }
     }
-    */
+
+    if (count == 0) {
+        cout << "No chats available.\n";
+    }
+}
+    
     void logout() {
         if (isLoggedIn()) {
             users[currentUserIndex].updateLastSeen();
