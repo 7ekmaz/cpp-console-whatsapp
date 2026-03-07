@@ -341,51 +341,58 @@ private:
     
 public:
     WhatsApp() : currentUserIndex(-1) {}
-    
-    void signUp() {
-        cout << "=== Sign Up ===\n";
-        string username, password , phone ;
-        cout << "Enter username : ";
-        cin >> username;
+     void signUp() {
+     string username, password, phone;
 
-        if (findUserIndex(username) != -1){
-            cout <<"Username already exists \n";
-            return;    
-        }
-        cout <<"Enter password: ";
-        cin >> password;
+     cout << "Enter username: ";
+     cin >> username;
 
-        if (password.length() < 6){
-            cout <<"Password must be at least 6 characters long \n";
-            return;
-        }
-        cout <<"Enter phone number:";
-        cin >> phone;
-        
-        User newUser(username, password, phone);
-        users.push_back(newUser);
-        
-        cout << "Account created successfully.\n";
-    }
-    
-    void login() {
-        string username, password;
-        cout << "Enter username: ";
-        cin >> username;
-        cout << "Enter password: ";
-        cin >> password;
-        
-        int index = findUserIndex(username);
-        if (index != -1 && users[index].checkPassword(password)) {
-            currentUserIndex = index;
-            users[currentUserIndex].updateLastSeen();
-            cout << "Login successful. Welcome, " << username << "!\n";
-        }
-        else {
-            cout << "Invalid username or password.\n";
-        }
-    }
-    
+     
+     if (findUserIndex(username) != -1) {
+         cout << "Username already exists!\n";
+         return;
+     }
+
+     cout << "Enter password (min 6 chars): ";
+     cin >> password;
+
+     if (password.length() < 6) {
+         cout << "Password too short!\n";
+         return;
+     }
+
+     cout << "Enter phone number: ";
+     cin >> phone;
+
+     users.push_back(User(username, password, phone));
+     cout << "Account created successfully!\n";
+ }
+
+ void login() {
+     string username, password;
+
+     cout << "Enter username: ";
+     cin >> username;
+
+     int index = findUserIndex(username);
+
+     if (index == -1) {
+         cout << "User not found!\n";
+         return;
+     }
+
+     cout << "Enter password: ";
+     cin >> password;
+
+     if (users[index].checkPassword(password)) {
+         currentUserIndex = index;
+         users[index].setStatus("Online");
+         cout << "Login successful!\n";
+     }
+     else {
+         cout << "Wrong password!\n";
+     }
+ }
     void startPrivateChat() {
         string otherUsername;
         cout << "Enter the username of the person you want to chat with: ";
